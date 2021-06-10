@@ -1,0 +1,43 @@
+# Matplotlib style for Cell Press Plots
+# https://www.cell.com/figureguidelines
+
+
+
+# Set default figure size
+figure.figsize : 3.3, 2.5
+# For color figures, the resolution should be 300 dpi at the desired print size
+# For black and white figures, the resolution should be 500 dpi at the desired print size
+# For line-art figures, the resolution should be 1,000 dpi at the desired print size 
+figure.dpi : 300
+figure.constrained_layout.use: False
+
+# Font sizes
+font.size : 8
+font.family : Arial
+
+# axes
+axes.spines.left:   True  # display axis spines
+axes.spines.bottom: True
+axes.spines.top:    False
+axes.spines.right:  False
+
+# legend
+legend.frameon: False # if True, draw the legend on a background patch
+legend.framealpha:    1      # legend patch transparency
+legend.loc: upper left
+
+# lines
+lines.linewidth : 1.5
+lines.markersize: 6 # it also controls scatter size, default rcParams['lines.markersize'] ** 2
+# Line weights or stroke widths should be in the 0.5–1.5 pt range 
+
+# patches
+patch.edgecolor:C0
+patch.facecolor:grey # control fill_between or avxspan
+
+# Set color cycle
+# If used, color should be encoded as RGB, and to accommodate all viewers, red and green should not be used together 
+axes.prop_cycle : cycler('color', ['darkblue', 'red', 'green', 'purple','yellow','brown'])
+
+# savefig
+savefig.dpi:1000
