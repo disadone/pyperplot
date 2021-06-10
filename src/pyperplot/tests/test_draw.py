@@ -12,4 +12,3 @@ class TestSFWith(unittest.TestCase):
         new_style=mpl.rcParams
         self.assertEqual(old_style,new_style)
     
-        

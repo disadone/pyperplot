@@ -13,7 +13,7 @@ def test_pyperplot():
 
 setuptools.setup(
     name="pyperplot", # Replace with your own username
-    version="0.0.8",
+    version="0.0.9",
     author="LI Xiaodong",
     author_email="flumer@qq.com",
     description="A package beautifys figures in writing papers",
