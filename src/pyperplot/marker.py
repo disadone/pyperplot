@@ -5,7 +5,7 @@ import os
 
 class Marker:
     def __init__(self,path,reset=False):
-        """read marker setup file
+        """read marker setup YAML file
 
         Parameters
         ----------
@@ -20,14 +20,14 @@ class Marker:
         self.figs=[]
         self.supp_figs=[]
 
-        self.figure_type=self.y['figure_type']
+        self.fig_type=self.y['figure_type']
 
         for k in self.y.keys():
             s=re.search("^fig\d+",k)
             if s is not None:
                 self.figs.append(s[0])
         if 'supp' in self.y:
-            for k in self.y.keys():
+            for k in self.y['supp'].keys():
                 s=re.search("^fig\d+",k)
                 if s is not None:
                     self.supp_figs.append(s[0])
@@ -35,7 +35,7 @@ class Marker:
 
         self.origin=self.y['origin']
         self.target=self.y['target']
-        self.stored_path=None
+        self.stored=None
     def check(self,fname):
         if fname is not None:
             for f in self.figs:
@@ -45,14 +45,22 @@ class Marker:
                             
                         name=os.path.join(self.origin,path)
 
-                        if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.figure_type}'):
-                            self.stored_path=(fname,os.path.join(self.target,f,f'{filename}.{self.figure_type}'))
+                        
+                        # for i in range(len(fname)):
+                        #     if fname[i]!=(f'{name}.{self.fig_type}')[i]:
+                        #         print('_',end='')
+                        #     else:
+                        #         print(fname[i],end='')
+                        # print('\n')
+
+                        if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.fig_type}'):
+                            self.stored=(fname,os.path.join(self.target,f,f'{filename}.{self.fig_type}'))
                             return annotation
                 elif isinstance(self.y[f],str):
                     path=self.y[f]
                     name=os.path.join(self.origin,path)
-                    if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.figure_type}'):
-                        self.stored_path=(fname,os.path.join(self.target,f,f'{f}.{self.figure_type}'))
+                    if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.fig_type}'):
+                        self.stored=(fname,os.path.join(self.target,f,f'{f}.{self.fig_type}'))
                         return None
                 else:
                     raise Exception("illegal figure path")
@@ -63,25 +71,27 @@ class Marker:
                         filename='-'.join(annotation) if isinstance(annotation,tuple)else annotation    
                         name=os.path.join(self.origin,path)
 
-                        if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.figure_type}'):
-                            self.stored_path=(fname,os.path.join(self.target,'supp',f,f'{annotation}.{self.figure_type}'))
+                        if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.fig_type}'):
+                            self.stored=(fname,os.path.join(self.target,'supp',f,f'{annotation}.{self.fig_type}'))
                             return annotation
                 elif isinstance(self.ys[f],str):
                     path=self.ys[f]
                     name=os.path.join(self.origin,path)
-                    if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.figure_type}'):
-                        self.stored_path=(fname,os.path.join(self.target,'supp',f,f'{f}.{self.figure_type}'))
+                    if os.path.normpath(fname)==os.path.normpath(f'{name}.{self.fig_type}'):
+                        self.stored=(fname,os.path.join(self.target,'supp',f,f'{f}.{self.fig_type}'))
                         return None
-
                 else:
                     raise Exception("illegal figure path")
-        raise Exception("not detected situation")
-    
+        
+        return None # no need to store
+
     def store(self):
-        if self.stored_path is not None:
-            dir_name,_=os.path.split(self.stored_path[1])
+        if self.stored is not None:
+            dir_name,_=os.path.split(self.stored[1])
             os.makedirs(dir_name,exist_ok=True)
-            shutil.copy(*self.stored_path)
+            print(f'figure used in paper is stored in {self.stored[1]}')
+            shutil.copy(*self.stored)
+            self.stored=None
         
 
 

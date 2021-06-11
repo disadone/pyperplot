@@ -12,7 +12,7 @@ class SF(object):
     """
     save figure context
     """
-    def __init__(self,figure_name=None,figures_folder='figs',figure_type='svg',figure_markers=None,style='neuron-plot',keep_titles=False,**fig_kwargs):
+    def __init__(self,figure_name=None,figures_folder='figs',figure_markers=None,figure_type='svg',style='neuron-plot',keep_titles=False,**fig_kwargs):
         """
         context that creates figures with given matplotlib style
         svg is the default format
@@ -24,10 +24,10 @@ class SF(object):
             if None, figure is not saved
         figures_folder : str, optional
             the folder to save figures, by default 'figs'
-        figure_type : str, optional
-            the figure type
         figure_markers : str or list[str] or pyperplot Marker object, optional
             figure markers, such as 'A','B','C','D', by default None
+        figure_type : str, optional
+            the figure type
         style : str, optional
             path to files in folder {styles}, by default neuron-plot
         keep_titles : bool, optional
@@ -72,7 +72,10 @@ class SF(object):
                     for i,ax in enumerate(self.axes.reshape(-1)):
                         ax.text(-0.15,1,markers[i], transform=ax.transAxes, weight='bold')
                 else:
-                    ax=self.axes[0] if self._axes_arrayQ else self.axes
+                    if self._axes_arrayQ:
+                        ax=self.axes[0] if len(self.axes.shape)==1  else self.axes[0,0]
+                    else:
+                        ax=self.axes
                     ax.text(-0.15,1,markers, transform=ax.transAxes, weight='bold')
                 self.marked=True
         
