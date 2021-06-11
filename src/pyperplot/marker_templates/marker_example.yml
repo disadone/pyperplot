@@ -1,0 +1,18 @@
+origin: ./figs
+target: ./paper_fig
+figure_type: svg
+
+fig1:
+  !!python/tuple [A,B]: fig1AB
+  C: fig1B
+fig2:
+  A: relative_path_to_figure3
+  B: relative_path_to_figure4
+fig3: fig3
+
+supp:
+  fig1: sfig1A
+  fig2: sfig2A
+  fig3: 
+    A: sfig3A
+    B: sfig3B

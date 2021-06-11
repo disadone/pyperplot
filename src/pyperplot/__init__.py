@@ -10,6 +10,7 @@ Shanghai, China
 
 
 from .draw import SF
+from .marker import Marker
 # from importlib.resources import read_binary,read_text,path
 
 
